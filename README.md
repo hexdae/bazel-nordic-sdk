@@ -2,11 +2,9 @@
 
 # Bazel arm-none-eabi-gcc toolchain 
 
-The goal of the project is to illustrate how to use a custom ARM embedded toolchain with Bazel. 
+This repository is an example on how to compile the nRF5 SDK into a bazel based project. 
 
 If this project was useful to you, give it a ⭐️ and I'll keep improving it!
-
-You can follow the post [Bazel for ARM embedded toolchains](https://d-asnaghi.github.io/blog/post/embedded-bazel/) to get more details about this code.
 
 ## Instructions
 
@@ -35,24 +33,3 @@ bazelisk build project
 ```
 
 This will take care of downloading the appropriate toolchain for your OS and compile all the source files specified by the target.
-
-## Folder structure
-
-```bash
-├── WORKSPACE
-│
-├── project
-│   ├── BUILD.bazel
-│   └── /* SOURCE CODE */
-│
-└── toolchains
-    ├── BUILD.bazel
-    └── arm-none-eabi
-        ├── darwin
-        │   └── /* DARWIN TOOLCHAIN */
-        ├── linux
-        │   └── /* LINUX TOOLCHAIN  */
-        └── ...
-            └── /* OTHER TOOLCHAIN  */
-
-```
