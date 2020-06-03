@@ -1,3 +1,0 @@
-#!/bin/bash
-set -euo pipefail
-external/arm-none-eabi-darwin/bin/arm-none-eabi-objcopy "$@"
