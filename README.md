@@ -31,7 +31,7 @@ Use this command to build the `project` target.
 
 ```bash
 # build the project
-bazelisk build project
+bazelisk build project:all
 ```
 
 This will take care of downloading the appropriate toolchain for your OS and compile all the source files specified by the target.
