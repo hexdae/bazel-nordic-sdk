@@ -1,0 +1,43 @@
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "hdrs",
+    srcs = glob(["**/*.h"]),
+    hdrs = glob(["**/*.h"]),
+    includes = [
+        "components",
+        "components/boards",
+        "components/drivers_nrf/nrf_soc_nosd",
+        "components/libraries/atomic",
+        "components/libraries/atomic_fifo",
+        "components/libraries/balloc",
+        "components/libraries/bsp",
+        "components/libraries/button",
+        "components/libraries/delay",
+        "components/libraries/experimental_section_vars",
+        "components/libraries/log",
+        "components/libraries/log/src",
+        "components/libraries/memobj",
+        "components/libraries/ringbuf",
+        "components/libraries/scheduler",
+        "components/libraries/sortlist",
+        "components/libraries/strerror",
+        "components/libraries/timer",
+        "components/libraries/util",
+        "components/toolchain/cmsis/include",
+        "external/fprintf",
+        "external/segger_rtt",
+        "integration/nrfx",
+        "integration/nrfx/legacy",
+        "modules/nrfx",
+        "modules/nrfx/drivers/include",
+        "modules/nrfx/hal",
+        "modules/nrfx/mdk",
+    ],
+    linkopts = ["-L $(location @nrf_sdk//:modules/nrfx/mdk)"],
+    alwayslink = 1,
+    deps = [":modules/nrfx/mdk/nrf_common.ld"],
+    data = ["@nrf_sdk//:modules/nrfx/mdk"],
+)
+
+exports_files(glob(["**"]))
