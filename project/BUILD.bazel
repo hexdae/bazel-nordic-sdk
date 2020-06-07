@@ -2,35 +2,11 @@
 
 load("@rules_cc//cc:defs.bzl", "cc_binary")
 
-cc_library(
-    name = "startup",
-    srcs = ["@nrf_sdk//:modules/nrfx/mdk/gcc_startup_nrf52833.S"],
-    copts = [
-        "-g3",
-        "-mcpu=cortex-m4",
-        "-mthumb -mabi=aapcs",
-        "-mfloat-abi=hard -mfpu=fpv4-sp-d16",
-    ],
-    linkstatic = 1,
-    local_defines = [
-        "APP_TIMER_V2",
-        "APP_TIMER_V2_RTC1_ENABLED",
-        "BOARD_PCA10040",
-        "CONFIG_GPIO_AS_PINRESET",
-        "FLOAT_ABI_HARD",
-        "NRF52",
-        "NRF52833_XXAA",
-        "NRF52_PAN_74",
-        "__HEAP_SIZE=8192",
-        "__STACK_SIZE=8192",
-    ],
-    alwayslink = 1,
-)
-
 cc_binary(
     name = "project",
     srcs = [
         "source/main.c",
+        "@nrf_sdk//:modules/nrfx/mdk/gcc_startup_nrf52833.S",
         "@nrf_sdk//:components/boards/boards.c",
         "@nrf_sdk//:components/drivers_nrf/nrf_soc_nosd/nrf_nvic.c",
         "@nrf_sdk//:components/drivers_nrf/nrf_soc_nosd/nrf_soc.c",
@@ -107,7 +83,6 @@ cc_binary(
     ],
     deps = [
         ":config/linker.ld",
-        ":startup",
         "//sdk:config",
         "@nrf_sdk//:hdrs",
     ],
@@ -117,14 +92,14 @@ genrule(
     name = "bin",
     srcs = [":project"],
     outs = ["project.bin"],
-    cmd = "$(location @arm-none-eabi-darwin//:objcopy) -O binary $< $@",
-    tools = ["@arm-none-eabi-darwin//:objcopy"],
+    cmd = "$(location @arm_none_eabi//:objcopy) -O binary $< $@",
+    tools = ["@arm_none_eabi//:objcopy"],
 )
 
 genrule(
     name = "hex",
     srcs = [":project"],
     outs = ["project.hex"],
-    cmd = "$(location @arm-none-eabi-darwin//:objcopy) -O ihex $< $@",
-    tools = ["@arm-none-eabi-darwin//:objcopy"],
+    cmd = "$(location @arm_none_eabi//:objcopy) -O ihex $< $@",
+    tools = ["@arm_none_eabi//:objcopy"],
 )
