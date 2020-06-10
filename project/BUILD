@@ -92,7 +92,7 @@ genrule(
     name = "bin",
     srcs = [":project"],
     outs = ["project.bin"],
-    cmd = "$(location @arm_none_eabi//:objcopy) -O binary $< $@",
+    cmd = "$(execpath @arm_none_eabi//:objcopy) -O binary $< $@",
     tools = ["@arm_none_eabi//:objcopy"],
 )
 
@@ -100,6 +100,6 @@ genrule(
     name = "hex",
     srcs = [":project"],
     outs = ["project.hex"],
-    cmd = "$(location @arm_none_eabi//:objcopy) -O ihex $< $@",
+    cmd = "$(execpath @arm_none_eabi//:objcopy) -O ihex $< $@",
     tools = ["@arm_none_eabi//:objcopy"],
 )
