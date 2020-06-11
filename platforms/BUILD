@@ -1,8 +1,32 @@
 # platfroms/BUILD
 
+package(default_visibility = ["//visibility:public"])
+
 platform(
-    name = "nRF52832",
-    constraint_values = [],
+    name = "pca10040",
+    constraint_values = [
+        "//boards:pca10040",
+    ],
+    parents = [
+        "@arm_none_eabi//platforms:arm_none_generic",
+    ],
+)
+
+platform(
+    name = "pca10056",
+    constraint_values = [
+        "//boards:pca10056",
+    ],
+    parents = [
+        "@arm_none_eabi//platforms:arm_none_generic",
+    ],
+)
+
+platform(
+    name = "pca10100",
+    constraint_values = [
+        "//boards:pca10100",
+    ],
     parents = [
         "@arm_none_eabi//platforms:arm_none_generic",
     ],

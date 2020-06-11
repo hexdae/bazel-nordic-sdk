@@ -3,6 +3,7 @@ workspace(name = "nRF5")
 
 # nRR5 SDK.
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
 http_archive(
     name = "nrf_sdk",
     build_file = "@nRF5//sdk:nRF5.BUILD",
@@ -12,11 +13,14 @@ http_archive(
 
 # ARM none eabi toolchain.
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+
 git_repository(
     name = "arm_none_eabi",
-    remote = "https://github.com/d-asnaghi/bazel-arm-none-eabi.git",
     commit = "d4b74ebaa8e3605a3b4738bae1e43d2e41e34957",
-    shallow_since = "1591836252 -0400"
+    remote = "https://github.com/d-asnaghi/bazel-arm-none-eabi.git",
+    shallow_since = "1591836252 -0400",
 )
+
 load("@arm_none_eabi//:deps.bzl", "arm_none_eabi_deps")
+
 arm_none_eabi_deps()

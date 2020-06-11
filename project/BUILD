@@ -2,9 +2,41 @@
 
 load("@rules_cc//cc:defs.bzl", "cc_binary")
 
+board_sources = select({
+    "//config:pca10040": [
+        "@nrf_sdk//:modules/nrfx/mdk/gcc_startup_nrf52.S",
+        "@nrf_sdk//:modules/nrfx/mdk/system_nrf52.c",
+    ],
+    "//config:pca10056": [
+        "@nrf_sdk//:modules/nrfx/mdk/gcc_startup_nrf52840.S",
+        "@nrf_sdk//:modules/nrfx/mdk/system_nrf52840.c",
+    ],
+    "//config:pca10100": [
+        "@nrf_sdk//:modules/nrfx/mdk/gcc_startup_nrf52833.S",
+        "@nrf_sdk//:modules/nrfx/mdk/system_nrf52833.c",
+    ],
+})
+
+board_defines = select({
+    "//config:pca10040": [
+        "BOARD_PCA10040",
+        "NRF52832_XXAA",
+        "NRF52",
+        "NRF52_PAN_74",
+    ],
+    "//config:pca10056": [
+        "BOARD_PCA10056",
+        "NRF52840_XXAA",
+    ],
+    "//config:pca10100": [
+        "BOARD_PCA10100",
+        "NRF52833_XXAA",
+    ],
+})
+
 cc_binary(
     name = "project.out",
-    srcs = [
+    srcs = board_sources + [
         "source/main.c",
         "@nrf_sdk//:components/boards/boards.c",
         "@nrf_sdk//:components/drivers_nrf/nrf_soc_nosd/nrf_nvic.c",
@@ -45,8 +77,6 @@ cc_binary(
         "@nrf_sdk//:modules/nrfx/drivers/src/nrfx_uart.c",
         "@nrf_sdk//:modules/nrfx/drivers/src/nrfx_uarte.c",
         "@nrf_sdk//:modules/nrfx/drivers/src/prs/nrfx_prs.c",
-        "@nrf_sdk//:modules/nrfx/mdk/gcc_startup_nrf52833.S",
-        "@nrf_sdk//:modules/nrfx/mdk/system_nrf52833.c",
         "@nrf_sdk//:modules/nrfx/soc/nrfx_atomic.c",
     ],
     copts = [
@@ -69,20 +99,16 @@ cc_binary(
         "--specs=nano.specs",
         "-lc -lnosys -lm",
     ],
-    local_defines = [
+    local_defines = board_defines + [
         "APP_TIMER_V2",
         "APP_TIMER_V2_RTC1_ENABLED",
-        "BOARD_PCA10040",
         "CONFIG_GPIO_AS_PINRESET",
         "FLOAT_ABI_HARD",
-        "NRF52",
-        "NRF52832_XXAA",
-        "NRF52_PAN_74",
         "__HEAP_SIZE=8192",
         "__STACK_SIZE=8192",
     ],
     deps = [
-        ":config/linker.ld",
+        ":buildtools/linker.ld",
         "//sdk:config",
         "@nrf_sdk//:hdrs",
     ],
