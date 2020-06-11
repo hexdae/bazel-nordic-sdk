@@ -13,8 +13,13 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
-      - name: build project
-        run: |
-          bazelisk build project:all --platforms=//platforms:pca10040
-          bazelisk build project:all --platforms=//platforms:pca10056
-          bazelisk build project:all --platforms=//platforms:pca10100
+      - name: build pca10040
+        run: bazelisk build project:all --platforms=//platforms:pca10040
+
+      - uses: actions/checkout@v2
+      - name: build pca10056
+        run: bazelisk build project:all --platforms=//platforms:pca10056
+
+      - uses: actions/checkout@v2
+      - name: build pca10100
+        run: bazelisk build project:all --platforms=//platforms:pca10100
