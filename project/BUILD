@@ -6,7 +6,6 @@ cc_binary(
     name = "project",
     srcs = [
         "source/main.c",
-        "@nrf_sdk//:modules/nrfx/mdk/gcc_startup_nrf52833.S",
         "@nrf_sdk//:components/boards/boards.c",
         "@nrf_sdk//:components/drivers_nrf/nrf_soc_nosd/nrf_nvic.c",
         "@nrf_sdk//:components/drivers_nrf/nrf_soc_nosd/nrf_soc.c",
@@ -46,6 +45,7 @@ cc_binary(
         "@nrf_sdk//:modules/nrfx/drivers/src/nrfx_uart.c",
         "@nrf_sdk//:modules/nrfx/drivers/src/nrfx_uarte.c",
         "@nrf_sdk//:modules/nrfx/drivers/src/prs/nrfx_prs.c",
+        "@nrf_sdk//:modules/nrfx/mdk/gcc_startup_nrf52833.S",
         "@nrf_sdk//:modules/nrfx/mdk/system_nrf52833.c",
         "@nrf_sdk//:modules/nrfx/soc/nrfx_atomic.c",
     ],
