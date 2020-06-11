@@ -92,7 +92,7 @@ cc_binary(
     linkopts = [
         "-O3 -g3",
         "-mthumb -mabi=aapcs",
-        "-T$(location :config/linker.ld)",
+        "-T$(rootpath :buildtools/linker.ld)",
         "-mcpu=cortex-m4",
         "-mfloat-abi=hard -mfpu=fpv4-sp-d16",
         "-Wl,--gc-sections",

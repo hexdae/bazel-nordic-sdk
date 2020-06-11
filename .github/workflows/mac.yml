@@ -15,4 +15,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: build project
         run: |
-          bazelisk build project:all
+          bazelisk build project:all --platforms=//platforms:pca10040
+          bazelisk build project:all --platforms=//platforms:pca10056
+          bazelisk build project:all --platforms=//platforms:pca10100
