@@ -1,7 +1,7 @@
 # .bazelrc
 
 build --incompatible_enable_cc_toolchain_resolution
-build --platforms=@arm_none_eabi//platforms:arm_none_eabi_generic
+build --platforms=//platforms:nRF52832
 
 # Legacy build options.
 build:legacy --crosstool_top=@arm_none_eabi//toolchain
