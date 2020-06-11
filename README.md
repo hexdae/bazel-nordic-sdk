@@ -27,11 +27,13 @@ Use `bazelisk` as you would use `bazel`, this takes care of using the correct Ba
 
 ### Build
 
-Use this command to build the `project` target.
+Use this command to build the `project` target for the pca10040 evaluation board.
 
 ```bash
 # build the project
-bazelisk build project:all
+bazelisk build project:all --platforms=//platforms:pca10040
 ```
 
 This will take care of downloading the appropriate toolchain for your OS and compile all the source files specified by the target.
+
+To build for the `pca10056` and `pca10100` evaluation boards, just use `--platforms=//platforms:pca10056` and `--platforms=//platforms:pca10100` respectively.
