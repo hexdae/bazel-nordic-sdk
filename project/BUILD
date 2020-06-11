@@ -3,7 +3,7 @@
 load("@rules_cc//cc:defs.bzl", "cc_binary")
 
 cc_binary(
-    name = "project",
+    name = "project.out",
     srcs = [
         "source/main.c",
         "@nrf_sdk//:components/boards/boards.c",
@@ -90,7 +90,7 @@ cc_binary(
 
 genrule(
     name = "bin",
-    srcs = [":project"],
+    srcs = [":project.out"],
     outs = ["project.bin"],
     cmd = "$(execpath @arm_none_eabi//:objcopy) -O binary $< $@",
     tools = ["@arm_none_eabi//:objcopy"],
@@ -98,7 +98,7 @@ genrule(
 
 genrule(
     name = "hex",
-    srcs = [":project"],
+    srcs = [":project.out"],
     outs = ["project.hex"],
     cmd = "$(execpath @arm_none_eabi//:objcopy) -O ihex $< $@",
     tools = ["@arm_none_eabi//:objcopy"],
