@@ -1,6 +1,6 @@
 # project/BUILD.bazel
 
-load("@rules_cc//cc:defs.bzl", "cc_binary")
+load("//rules:nrf.bzl", "nrf_binary")
 
 board_sources = select({
     "//config:pca10040": [
@@ -34,10 +34,11 @@ board_defines = select({
     ],
 })
 
-cc_binary(
-    name = "project.out",
+nrf_binary(
+    name = "wake_on_nfc",
     srcs = board_sources + [
         "source/main.c",
+        "config/sdk_config.h",
         "@nrf_sdk//:components/boards/boards.c",
         "@nrf_sdk//:components/drivers_nrf/nrf_soc_nosd/nrf_nvic.c",
         "@nrf_sdk//:components/drivers_nrf/nrf_soc_nosd/nrf_soc.c",
@@ -89,10 +90,11 @@ cc_binary(
         "-ffunction-sections -fdata-sections -fno-strict-aliasing",
         "-fno-builtin -fshort-enums",
     ],
+    includes = ["config"],
+    linker = ":config/linker.ld",
     linkopts = [
         "-O3 -g3",
         "-mthumb -mabi=aapcs",
-        "-T$(rootpath :buildtools/linker.ld)",
         "-mcpu=cortex-m4",
         "-mfloat-abi=hard -mfpu=fpv4-sp-d16",
         "-Wl,--gc-sections",
@@ -107,25 +109,4 @@ cc_binary(
         "__HEAP_SIZE=8192",
         "__STACK_SIZE=8192",
     ],
-    deps = [
-        ":buildtools/linker.ld",
-        "//sdk:config",
-        "@nrf_sdk//:hdrs",
-    ],
-)
-
-genrule(
-    name = "bin",
-    srcs = [":project.out"],
-    outs = ["project.bin"],
-    cmd = "$(execpath @arm_none_eabi//:objcopy) -O binary $< $@",
-    tools = ["@arm_none_eabi//:objcopy"],
-)
-
-genrule(
-    name = "hex",
-    srcs = [":project.out"],
-    outs = ["project.hex"],
-    cmd = "$(execpath @arm_none_eabi//:objcopy) -O ihex $< $@",
-    tools = ["@arm_none_eabi//:objcopy"],
 )
