@@ -10,6 +10,8 @@ If this project was useful to you, give it a ⭐️ and I'll keep improving it!
 
 ## Using the nRF5 Bazel rules
 
+### `WORKSPACE`
+
 Add this to your `WORKSPACE`, based on the version you want to use. For example, for v1.0:
 
 ```python
@@ -19,7 +21,7 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 http_archive(
     name = "nRF5",
     url = "https://github.com/d-asnaghi/bazel-nordic-sdk/archive/v1.0.tar.gz",
-    sha256 = "453bf92e953245bf78c4b944489962cbb5715d31d85de17b1c05567286b4c91f",
+    sha256 = "6ecb846291fcb51b8abb210ed35e4a27ba263e80b15d76f3ddf707a9f3bea93d",
     strip_prefix = "bazel-nordic-sdk-1.0"
 )
 
@@ -30,6 +32,19 @@ load("@arm_none_eabi//:deps.bzl", "arm_none_eabi_deps")
 arm_none_eabi_deps()
 
 ```
+
+### `.bazelrc`
+
+Enable `cc_toolchain` resolution
+
+```bash
+# .bazelrc
+
+# Enable toolchain resolution
+build --incompatible_enable_cc_toolchain_resolution
+```
+
+### `BUILD`
 
 Then you can the `nrf_binary` rule to build firmware in your `BUILD` files.
 Just use it as you would use the `cc_binary` rule, and by adding the custom
