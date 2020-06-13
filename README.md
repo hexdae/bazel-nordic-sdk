@@ -12,7 +12,9 @@ If this project was useful to you, give it a ⭐️ and I'll keep improving it!
 
 ### `WORKSPACE`
 
-Add this to your `WORKSPACE`, based on the version you want to use. For example, for v1.0:
+Check the [releases](https://github.com/d-asnaghi/bazel-nordic-sdk/releases) page and copy the accurate workspace setup for the version you want.
+
+This is an example of what to add to your workspace file
 
 ```python
 # WORKSPACE
@@ -20,8 +22,8 @@ Add this to your `WORKSPACE`, based on the version you want to use. For example,
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 http_archive(
     name = "nRF5",
-    url = "https://github.com/d-asnaghi/bazel-nordic-sdk/archive/v1.0.tar.gz",
-    sha256 = "6ecb846291fcb51b8abb210ed35e4a27ba263e80b15d76f3ddf707a9f3bea93d",
+    url = "https://github.com/d-asnaghi/bazel-nordic-sdk/archive/<VERSION>.tar.gz",
+    sha256 = "<SHA256>",
     strip_prefix = "bazel-nordic-sdk-1.0"
 )
 
@@ -30,7 +32,6 @@ nRF5_deps()
 
 load("@arm_none_eabi//:deps.bzl", "arm_none_eabi_deps")
 arm_none_eabi_deps()
-
 ```
 
 ### `.bazelrc`
