@@ -5,6 +5,6 @@ package(default_visibility = ["//visibility:public"])
 filegroup(
     name = "nfc",
     srcs = [
-        "//examples/nfc/wake_on_nfc",
+        "@nRF5//examples/nfc/wake_on_nfc",
     ],
 )

@@ -1,36 +1,36 @@
 # project/BUILD.bazel
 
-load("//rules:nrf.bzl", "nrf_binary")
+load("@nRF5//rules:nrf.bzl", "nrf_binary")
 
 package(default_visibility = ["//visibility:public"])
 
 board_sources = select({
-    "//config:pca10040": [
+    "@nRF5//config:pca10040": [
         "@nrf_sdk//:modules/nrfx/mdk/gcc_startup_nrf52.S",
         "@nrf_sdk//:modules/nrfx/mdk/system_nrf52.c",
     ],
-    "//config:pca10056": [
+    "@nRF5//config:pca10056": [
         "@nrf_sdk//:modules/nrfx/mdk/gcc_startup_nrf52840.S",
         "@nrf_sdk//:modules/nrfx/mdk/system_nrf52840.c",
     ],
-    "//config:pca10100": [
+    "@nRF5//config:pca10100": [
         "@nrf_sdk//:modules/nrfx/mdk/gcc_startup_nrf52833.S",
         "@nrf_sdk//:modules/nrfx/mdk/system_nrf52833.c",
     ],
 })
 
 board_defines = select({
-    "//config:pca10040": [
+    "@nRF5//config:pca10040": [
         "BOARD_PCA10040",
         "NRF52832_XXAA",
         "NRF52",
         "NRF52_PAN_74",
     ],
-    "//config:pca10056": [
+    "@nRF5//config:pca10056": [
         "BOARD_PCA10056",
         "NRF52840_XXAA",
     ],
-    "//config:pca10100": [
+    "@nRF5//config:pca10100": [
         "BOARD_PCA10100",
         "NRF52833_XXAA",
     ],
