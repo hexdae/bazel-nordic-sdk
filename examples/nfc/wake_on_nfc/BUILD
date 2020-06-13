@@ -20,17 +20,17 @@ board_sources = select({
 })
 
 board_defines = select({
-    "@nRF5//config:pca10040": [
+    "@nRF5//boards:is_pca10040": [
         "BOARD_PCA10040",
         "NRF52832_XXAA",
         "NRF52",
         "NRF52_PAN_74",
     ],
-    "@nRF5//config:pca10056": [
+    "@nRF5//boards:is_pca10056": [
         "BOARD_PCA10056",
         "NRF52840_XXAA",
     ],
-    "@nRF5//config:pca10100": [
+    "@nRF5//boards:is_pca10100": [
         "BOARD_PCA10100",
         "NRF52833_XXAA",
     ],
