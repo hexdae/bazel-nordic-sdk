@@ -5,15 +5,15 @@ load("@nRF5//rules:nrf.bzl", "nrf_binary")
 package(default_visibility = ["//visibility:public"])
 
 board_sources = select({
-    "@nRF5//config:pca10040": [
+    "@nRF5//boards:is_pca10040": [
         "@nrf_sdk//:modules/nrfx/mdk/gcc_startup_nrf52.S",
         "@nrf_sdk//:modules/nrfx/mdk/system_nrf52.c",
     ],
-    "@nRF5//config:pca10056": [
+    "@nRF5//boards:is_pca10056": [
         "@nrf_sdk//:modules/nrfx/mdk/gcc_startup_nrf52840.S",
         "@nrf_sdk//:modules/nrfx/mdk/system_nrf52840.c",
     ],
-    "@nRF5//config:pca10100": [
+    "@nRF5//boards:is_pca10100": [
         "@nrf_sdk//:modules/nrfx/mdk/gcc_startup_nrf52833.S",
         "@nrf_sdk//:modules/nrfx/mdk/system_nrf52833.c",
     ],
