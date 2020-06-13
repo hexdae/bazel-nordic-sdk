@@ -8,7 +8,64 @@ This repository is an example on how to compile the nRF5 SDK into a Bazel based 
 
 If this project was useful to you, give it a ⭐️ and I'll keep improving it!
 
-## Instructions
+## Using the nRF5 Bazel rules
+
+Add this to your `WORKSPACE`, based on the version you want to use. For example, for v1.0:
+
+```python
+# WORKSPACE
+
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+http_archive(
+    name = "nRF5",
+    url = "https://github.com/d-asnaghi/bazel-nordic-sdk/archive/v1.0.tar.gz",
+    sha256 = "453bf92e953245bf78c4b944489962cbb5715d31d85de17b1c05567286b4c91f",
+    strip_prefix = "bazel-nordic-sdk-1.0"
+)
+
+load("@nRF5//:deps.bzl", "nRF5_deps")
+nRF5_deps()
+
+load("@arm_none_eabi//:deps.bzl", "arm_none_eabi_deps")
+arm_none_eabi_deps()
+
+```
+
+Then you can the `nrf_binary` rule to build firmware in your `BUILD` files.
+Just use it as you would use the `cc_binary` rule, and by adding the custom
+attributes `linker`, `sdk_srcs`, and `sdk_includes` if you need files from
+the nRF5 SDK.
+
+```python
+# BUILD
+
+# Your custom platform compiled with the arm-none-eabi-gcc toolchain.
+platform(
+    name = "your_platform",
+    parents = ["@arm_none_eabi//platforms:arm_none_generic"],
+)
+
+# Your custom nRF5 based firmware.
+nrf_binary(
+    name = "your_nrf_firmware",
+    linker = "...",
+    srcs = [...],
+    includes = [...],
+    sdk_srcs = [...],
+    sdk_includes = [...],
+)
+
+```
+
+To build the target, use the command
+
+```bash
+bazelisk build --platform=//:your_platform //:your_nrf_firmware
+```
+
+Checkout the `examples` directory for inspiration.
+
+## Testing the repository
 
 ### Bazel
 
@@ -24,14 +81,17 @@ If this project was useful to you, give it a ⭐️ and I'll keep improving it!
 
 Use `bazelisk` as you would use `bazel`, this takes care of using the correct Bazel version for each project by using the [.bazelversion](./.bazelversion) file contained in each project.
 
+### Clone the repo
 
-### Build
+`git clone https://github.com/d-asnaghi/bazel-nordic-sdk.git`
 
-Use this command to build the `project` target for the pca10040 evaluation board.
+### Build examples
+
+Use this command to build all the `examples` target for the pca10040 evaluation board.
 
 ```bash
 # build the project
-bazelisk build project:all --platforms=//platforms:pca10040
+bazelisk build --platforms=//platforms:pca10040 //examples
 ```
 
 This will take care of downloading the appropriate toolchain for your OS and compile all the source files specified by the target.
