@@ -5,38 +5,41 @@ load("@nRF5//rules:nrf.bzl", "nrf_binary")
 package(default_visibility = ["//visibility:public"])
 
 board_sources = select({
-    "@nRF5//boards:is_pca10040": [
+    "@nRF5//boards:pca10040": [
         "@nrf_sdk//:modules/nrfx/mdk/gcc_startup_nrf52.S",
         "@nrf_sdk//:modules/nrfx/mdk/system_nrf52.c",
     ],
-    "@nRF5//boards:is_pca10056": [
+    "@nRF5//boards:pca10056": [
         "@nrf_sdk//:modules/nrfx/mdk/gcc_startup_nrf52840.S",
         "@nrf_sdk//:modules/nrfx/mdk/system_nrf52840.c",
     ],
-    "@nRF5//boards:is_pca10100": [
+    "@nRF5//boards:pca10100": [
         "@nrf_sdk//:modules/nrfx/mdk/gcc_startup_nrf52833.S",
         "@nrf_sdk//:modules/nrfx/mdk/system_nrf52833.c",
     ],
+    "//conditions:default": [],
 })
 
 board_defines = select({
-    "@nRF5//boards:is_pca10040": [
+    "@nRF5//boards:pca10040": [
         "BOARD_PCA10040",
         "NRF52832_XXAA",
         "NRF52",
         "NRF52_PAN_74",
     ],
-    "@nRF5//boards:is_pca10056": [
+    "@nRF5//boards:pca10056": [
         "BOARD_PCA10056",
         "NRF52840_XXAA",
     ],
-    "@nRF5//boards:is_pca10100": [
+    "@nRF5//boards:pca10100": [
         "BOARD_PCA10100",
         "NRF52833_XXAA",
     ],
+    "//conditions:default": [],
 })
 
 nrf_binary(
+    name = "wake_on_nfc",
     srcs = board_sources + [
         "source/main.c",
         "config/sdk_config.h",
@@ -143,5 +146,9 @@ nrf_binary(
         "modules/nrfx/drivers/src/nrfx_uarte.c",
         "modules/nrfx/drivers/src/prs/nrfx_prs.c",
         "modules/nrfx/soc/nrfx_atomic.c",
+    ],
+    target_compatible_with = [
+        "@platforms//cpu:arm",
+        "@platforms//os:none",
     ],
 )

@@ -57,13 +57,17 @@ the nRF5 SDK.
 
 # Your custom platform compiled with the arm-none-eabi-gcc toolchain.
 platform(
-    name = "your_platform",
-    parents = ["@arm_none_eabi//platforms:arm_none_generic"],
+    name = "nrf",
+    constraint_values = [
+        "@platforms//cpu:arm",
+        "@platforms//os:none",
+    ],
+    visibility = ["//visibility:public"],
 )
 
 # Your custom nRF5 based firmware.
 nrf_binary(
-    name = "your_nrf_firmware",
+    name = "nrf_firmware",
     linker = "...",
     srcs = [...],
     includes = [...],
@@ -76,7 +80,7 @@ nrf_binary(
 To build the target, use the command
 
 ```bash
-bazelisk build --platform=//:your_platform //:your_nrf_firmware
+bazelisk build --platform=//:nrf //:nrf_firmware
 ```
 
 Checkout the `examples` directory for inspiration.

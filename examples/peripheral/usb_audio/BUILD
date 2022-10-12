@@ -5,20 +5,23 @@ load("@nRF5//rules:nrf.bzl", "nrf_binary")
 package(default_visibility = ["//visibility:public"])
 
 board_sources = select({
-    "@nRF5//boards:is_pca10056": [
+    "@nRF5//boards:pca10056": [
         "@nrf_sdk//:modules/nrfx/mdk/gcc_startup_nrf52840.S",
         "@nrf_sdk//:modules/nrfx/mdk/system_nrf52840.c",
     ],
+    "//conditions:default": [],
 })
 
 board_defines = select({
-    "@nRF5//boards:is_pca10056": [
+    "@nRF5//boards:pca10056": [
         "BOARD_PCA10056",
         "NRF52840_XXAA",
     ],
+    "//conditions:default": [],
 })
 
 nrf_binary(
+    name = "usb_audio",
     srcs = board_sources + [
         "source/main.c",
         "config/sdk_config.h",
@@ -144,5 +147,10 @@ nrf_binary(
         "external/segger_rtt/SEGGER_RTT_Syscalls_GCC.c",
         "external/segger_rtt/SEGGER_RTT_printf.c",
         "external/utf_converter/utf.c",
+    ],
+    target_compatible_with = [
+        "@nRF5//boards:pca10056",
+        "@platforms//cpu:arm",
+        "@platforms//os:none",
     ],
 )
