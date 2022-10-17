@@ -18,9 +18,9 @@ nRF5_deps()
 #---------------------------------------------------------------------
 git_repository(
     name = "arm_none_eabi",
-    commit = "2c681610589b7b6b54691ed5873176fea903b38a",
+    commit = "eb08f73c8890baa153fa2f0de36cfacbb7552109",
     remote = "https://github.com/hexdae/bazel-arm-none-eabi",
-    shallow_since = "1665467736 -0700",
+    shallow_since = "1665997882 -0700",
 )
 
 load("@arm_none_eabi//:deps.bzl", "arm_none_eabi_deps")

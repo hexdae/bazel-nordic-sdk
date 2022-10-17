@@ -12,26 +12,44 @@ If this project was useful to you, give it a ⭐️ and I'll keep improving it!
 
 ### `WORKSPACE`
 
-Check the [releases](https://github.com/d-asnaghi/bazel-nordic-sdk/releases) page and copy the accurate workspace setup for the version you want.
+Check the [releases](https://github.com/hexdae/bazel-nordic-sdk/releases) page and copy the accurate workspace setup for the version you want.
 
-This is an example of what to add to your workspace file
+This is an example of what to add to your workspace file, this includes a suitable ARM toolchain
+used to compile the nrf source code. In this example we are going to use `arm-none-eabi-gcc` from
+the [`bazel-arm-none-eabi`](https://github.com/hexdae/bazel-arm-none-eabi) repo
 
 ```python
 # WORKSPACE
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
+#---------------------------------------------------------------------
+# ARM none eabi GCC
+#---------------------------------------------------------------------
+git_repository(
+    name = "arm_none_eabi",
+    commit = "eb08f73c8890baa153fa2f0de36cfacbb7552109",
+    remote = "https://github.com/hexdae/bazel-arm-none-eabi",
+    shallow_since = "1665997882 -0700",
+)
+
+load("@arm_none_eabi//:deps.bzl", "arm_none_eabi_deps")
+
+arm_none_eabi_deps()
+#---------------------------------------------------------------------
+
+#---------------------------------------------------------------------
+# nRF5 SDK dependencies
+#---------------------------------------------------------------------
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-http_archive(
+git_repository(
     name = "nRF5",
-    url = "https://github.com/d-asnaghi/bazel-nordic-sdk/archive/<VERSION>.tar.gz",
-    sha256 = "<SHA256>",
-    strip_prefix = "bazel-nordic-sdk-1.0"
+    commit = "<latest_commit>",
+    remote = "https://github.com/hexdae/bazel-nrf-sdk",
 )
 
 load("@nRF5//:deps.bzl", "nRF5_deps")
 nRF5_deps()
-
-load("@arm_none_eabi//:deps.bzl", "arm_none_eabi_deps")
-arm_none_eabi_deps()
+#---------------------------------------------------------------------
 ```
 
 ### `.bazelrc`
@@ -111,7 +129,7 @@ Use this command to build all the `examples` target for the pca10040 evaluation 
 
 ```bash
 # build the project
-bazelisk build --platforms=//platforms:pca10040 //examples
+bazelisk build --platforms=//platforms:pca10056 //examples
 ```
 
 This will take care of downloading the appropriate toolchain for your OS and compile all the source files specified by the target.
