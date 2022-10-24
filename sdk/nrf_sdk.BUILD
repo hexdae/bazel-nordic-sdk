@@ -1,20 +1,24 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
 
-package(default_visibility = ["//visibility:public"])
+sdk_headers = glob(
+    ["**/*.h"],
+    exclude = glob(["examples/**"]),
+)
+
+sdk_includes = {
+    "/".join(header.split("/")[:-1]): None
+    for header in sdk_headers
+}.keys()
 
 cc_library(
     name = "hdrs",
-    srcs = glob(["**/*.h"]),
-    hdrs = glob(["**/*.h"]),
-    linkopts = ["-L $(location @nrf_sdk//:modules/nrfx/mdk)"],
-    alwayslink = 1,
-    deps = [":modules/nrfx/mdk/nrf_common.ld"],
+    hdrs = sdk_headers,
     data = ["@nrf_sdk//:modules/nrfx/mdk"],
-)
-
-filegroup(
-    name = "root",
-    srcs = ["."],
+    includes = sdk_includes,
+    linkopts = ["-L $(location @nrf_sdk//:modules/nrfx/mdk)"],
+    visibility = ["//visibility:public"],
+    deps = [":modules/nrfx/mdk/nrf_common.ld"],
+    alwayslink = 1,
 )
 
 exports_files(glob(["**"]))

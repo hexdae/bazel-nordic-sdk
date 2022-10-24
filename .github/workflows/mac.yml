@@ -15,10 +15,10 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: build pca10040
-        run: bazelisk build --platforms=//platforms:pca10040 //examples
+        run: bazelisk build --platforms=//platforms:pca10040 //examples/...
 
       - name: build pca10056
-        run: bazelisk build --platforms=//platforms:pca10056 //examples
+        run: bazelisk build --platforms=//platforms:pca10056 //examples/...
 
       - name: build pca10100
-        run: bazelisk build --platforms=//platforms:pca10100 //examples
+        run: bazelisk build --platforms=//platforms:pca10100 //examples/...
