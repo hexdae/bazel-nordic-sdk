@@ -1,37 +1,14 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
 
-# include_globs = [
-#     "components/**",
-#     "modules/**",
-#     "external/**",
-# ]
-
-# include_directories = [
-#     "integration/nrfx",
-#     "integration/nrfx/legacy",
-# ]
-
-# exclude_files = glob(
-#     include_globs,
-#     exclude_directories = 1,
-# )
-
-# sdk_includes = include_directories + glob(
-#     include_globs,
-#     exclude = exclude_files,
-#     exclude_directories = 0,
-# )
-
 sdk_headers = glob(
     ["**/*.h"],
     exclude = glob(["examples/**"]),
 )
 
-include_dirs = = {header: None for header in sdk_headers}
-
-sdk_includes = list(include_dirs.keys())
-
-print(len(sdk_includes))
+sdk_includes = {
+    "/".join(header.split("/")[:-1]): None
+    for header in sdk_headers
+}.keys()
 
 cc_library(
     name = "hdrs",
