@@ -2,3 +2,8 @@
 
 # Enable toolchain resolution
 build --incompatible_enable_cc_toolchain_resolution
+
+# Fix windows issues
+build --features=compiler_param_file
+build --features=linker_param_file
+build --features=include_param_files

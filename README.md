@@ -54,7 +54,8 @@ nRF5_deps()
 
 ### `.bazelrc`
 
-Enable `cc_toolchain` resolution
+Enable `cc_toolchain` resolution, also fix a problem on windows where
+the command line has a limited number of characters
 
 ```bash
 # .bazelrc
