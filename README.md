@@ -85,12 +85,23 @@ platform(
 
 # Your custom nRF5 based firmware.
 nrf_binary(
-    name = "nrf_firmware",
+    name = "nrf_binary",
     linker = "...",
     srcs = [...],
-    includes = [...],
-    sdk_srcs = [...],
-    sdk_includes = [...],
+)
+
+# The above is almost exactly the same as 
+cc_binary(
+    name = "nrf_cc_binary",
+    linker = "...",
+    srcs = [...],
+    linkopts = [
+        "-T $(location {})".format(":linker.ld")
+    ],
+    deps = [
+        "@nrf_sdk//:hdrs",
+        ":linker.ld"
+    ],
 )
 
 ```
